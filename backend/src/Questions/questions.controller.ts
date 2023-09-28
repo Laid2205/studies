@@ -32,9 +32,7 @@ export class QuestionsController {
     }
 
     @Put(':id')
-    async update(@Param('id') QuestionId: number, @Body() updatedQuestion: Questions){
-        const updateQuestion = await this.questionsService.update( QuestionId, updatedQuestion);
-        return { message: 'Question update', updateQuestion };
-        /*return this.usersService.update(UsersId, updateUser, Option:{new: true});*/
+    async update(@Param('id') QuestionId: number,@Body() updatedQuestion: Partial<Questions>){
+        return await this.questionsService.update(QuestionId, updatedQuestion);
     }
 }

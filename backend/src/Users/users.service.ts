@@ -6,15 +6,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @Inject('Users_REPOSITORY')
-    private usersRepository: Repository<Users>,
-  ) {}
-  /*constructor(
-      
+
+  constructor(   
     @InjectRepository(Users)
     private usersRepository: Repository<Users>,
-  ) {}*/
+  ) {}
        
   async findAll(): Promise<Users[]> {
     return this.usersRepository.find({ relations: ['RoleId'] }); // Load the RoleId relation
@@ -29,8 +25,6 @@ export class UsersService {
   }
 
   async create(newUser: Partial<Users>): Promise<Users> {      
-    /*const newUser = new this.usersRepository(usersDto);
-    return  newUser.save();*/
     const createdUser = await this.usersRepository.create(newUser);
     return await this.usersRepository.save(createdUser);
   }

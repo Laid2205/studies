@@ -29,7 +29,13 @@ export class QuestionsService {
     return await this.questionsRepository.save(createdQuestion);
   }
 
-  async update(QuestionId: number, questions: Questions): Promise<void> {
-    await this.questionsRepository.update({ QuestionId }, questions);
+  async update(QuestionId: number, role: Partial<Questions>): Promise<Questions> {
+    const updateQuestion = await this.questionsRepository.findOneBy( {QuestionId});
+    if (!updateQuestion) {
+      throw new Error('Question not found');
+    }
+    Object.assign(updateQuestion, role);
+    updateQuestion.Updated_at = new Date();
+    return await this.questionsRepository.save(updateQuestion); 
   }
 }
